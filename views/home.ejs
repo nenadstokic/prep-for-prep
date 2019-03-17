@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My express app</title>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDBZf24x9Qcub4RfMF1oelSOS0f1yR1hcY",
+        authDomain: "node-firebase-intro-fdda8.firebaseapp.com",
+        databaseURL: "https://node-firebase-intro-fdda8.firebaseio.com",
+        projectId: "node-firebase-intro-fdda8",
+        storageBucket: "node-firebase-intro-fdda8.appspot.com",
+        messagingSenderId: "1037310396541"
+      };
+      firebase.initializeApp(config);
+    </script>
+</head>
+<body>
+    <h1>Voting app</h1>
+    <p>Login with Firebase</p>
+    <h3 id="google-displayName"></h3>
+    <img id="google-pic" src=""></img>
+    <p id="google-email"></p>
+    <button onclick={signInWithGoogle()}>Sign in with Google</button>
+    <script>
+        function signInWithGoogle(){
+            var googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+            
+            firebase.auth().signInWithPopup(googleAuthProvider)
+            .then(function(data){
+                console.log(data);
+                var displayName = data.user.displayName;
+                var photoURL = data.user.photoURL;
+                var email = data.user.email;
+                document.getElementById("google-displayName").textContent = displayName;
+                document.getElementById("google-pic").setAttribute("src", photoURL);
+                document.getElementById("google-email").textContent = email;
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        }
+    </script>
+</body>
+</html>
